@@ -123,10 +123,8 @@ int	gnl(t_file *file)
 			temp[size++] = file->data[file->offset++];
 		TOKEN->line = ft_strjoin(TOKEN->line, temp);
 	}
-	
-//	if (rm_comment(file) == 1)
-//		gnl(file);
 	rm_comment(file);
+//	file->cur_line++;
 	printf("%sLINE: [%s]\n%s", YELLOW, TOKEN->line, NORMAL);
 	if (ft_strcmp(TOKEN->line, "\0") == 0)
 		return (0);

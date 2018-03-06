@@ -130,6 +130,8 @@ void	vname(t_file *file) //validate name
 
 void	handle_labels(t_file *file)
 {
+	
+	static int line;
 	printf("HERE2\n");
 	file->token = (t_token *)malloc(sizeof(t_token));
 	file->labels = (char **)malloc(sizeof(char *) * 300);
@@ -144,10 +146,15 @@ void	handle_labels(t_file *file)
 //			return ;
 //		}
 		gnl(file);
-		
-		if (ft_strcmp(TOKEN->line, "\0"))
+		printf("line %d, %d\n", line, ft_strcmp(TOKEN->line, "\0"));
+		if (line < 2 && ft_strcmp(TOKEN->line, "\0"))
 		{
-		
+			printf("JEBANA SZMATO\n");
+			line++ == 0 ? pname(file, 0): pcomment(file, 0);
+		}
+		else if (ft_strcmp(TOKEN->line, "\0"))
+		{
+		printf("JEBANA SZMefwefwefwdfsATO\n");
 			vname(file);
 //			printf("HERE3\n");
 			op_offset(file);

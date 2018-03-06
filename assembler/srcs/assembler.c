@@ -63,33 +63,33 @@ void	get_name(t_file *file)
 	int		index;
 	
 	
-//	printf("GET NAMEEEEE NAMEEEE\n");
-//		printf("BEFORE: %sTOKEN->pos: [%c]\n%s", GREEN, TOKEN->line[TOKEN->pos], NORMAL);
-//	printf("%stmp: [%s], TOKEN->name: [%s]%s\n",YELLOW, tmp, TOKEN->name, NORMAL);
+	//	printf("GET NAMEEEEE NAMEEEE\n");
+	//		printf("BEFORE: %sTOKEN->pos: [%c]\n%s", GREEN, TOKEN->line[TOKEN->pos], NORMAL);
+	//	printf("%stmp: [%s], TOKEN->name: [%s]%s\n",YELLOW, tmp, TOKEN->name, NORMAL);
 	index = 0;
 	while ((TOKEN->line[TOKEN->pos] == ' ' || TOKEN->line[TOKEN->pos] == '\t' ||
 			TOKEN->line[TOKEN->pos] == '\n') && TOKEN->line[TOKEN->pos] != '\0')
 		TOKEN->pos++;
-//	printf("%sBEFORE tmp: [%s], TOKEN->name: [%s]%s\n",YELLOW, tmp, TOKEN->name, NORMAL);
-//		printf("AFTER: %sTOKEN->pos: [%c]\n%s", GREEN, TOKEN->line[TOKEN->pos], NORMAL);
+	//	printf("%sBEFORE tmp: [%s], TOKEN->name: [%s]%s\n",YELLOW, tmp, TOKEN->name, NORMAL);
+	//		printf("AFTER: %sTOKEN->pos: [%c]\n%s", GREEN, TOKEN->line[TOKEN->pos], NORMAL);
 	while (TOKEN->line[TOKEN->pos] != '\0' && ft_strchr(LABEL_CHARS, TOKEN->line[TOKEN->pos]))
-			tmp[index++] = TOKEN->line[TOKEN->pos++];
+		tmp[index++] = TOKEN->line[TOKEN->pos++];
 	tmp[index] = '\0';
 	if (TOKEN->line[TOKEN->pos] == '\0')
 		TOKEN->op_offset = -1;
-//	printf("up to hereee\n");
+	//	printf("up to hereee\n");
 	if (TOKEN->line[TOKEN->pos] == ':')
 	{
 		TOKEN->pos++;
 		get_name(file);
-//		printf("%sAFTER tmp: [%s], TOKEN->name: [%s]%s\n",YELLOW, tmp, TOKEN->name, NORMAL);
+		//		printf("%sAFTER tmp: [%s], TOKEN->name: [%s]%s\n",YELLOW, tmp, TOKEN->name, NORMAL);
 	}
 	else
 	{
 		TOKEN->name = ft_strdup(tmp);
 		TOKEN->icode = file->header->prog_size + 1;
-//		op_tab[TOKEN->op_offset].op_code <<= 16;
-//		printf("%stmp: [%s], TOKEN->name: [%s], op_code: [%d]%s\n",GREEN, tmp, TOKEN->name, NORMAL);
+		//		op_tab[TOKEN->op_offset].op_code <<= 16;
+		//		printf("%stmp: [%s], TOKEN->name: [%s], op_code: [%d]%s\n",GREEN, tmp, TOKEN->name, NORMAL);
 	}
 }
 
@@ -103,7 +103,7 @@ void	write_label(t_file *file, int size, char *token)
 	char	*number;
 	int		position;
 	int		i;
-
+	
 	i = 0;
 	position = TOKEN->pos + 1;
 	label = ft_strnew(LABEL_MAX_SIZE);
@@ -114,7 +114,7 @@ void	write_label(t_file *file, int size, char *token)
 	{
 		printf("%sLABEL: prog_size: %d\n", YELLOW, file->header->prog_size);
 		array_label = ft_strsub(file->labels[i], 0, ft_strlen_chr(file->labels[i], ':'));
-//		printf("%sLABEL SENT: [%s], LABEL in an array: [%s]\n%s", MAGNETA, label, array_label, NORMAL);
+		//		printf("%sLABEL SENT: [%s], LABEL in an array: [%s]\n%s", MAGNETA, label, array_label, NORMAL);
 		if (ft_strcmp(array_label, label) == 0)
 		{
 			number = ft_strsub(file->labels[i], ft_strlen_chr(file->labels[i], ':') + 1, 100);
@@ -154,7 +154,7 @@ void	reg(t_file *file)
 		exit (0);
 	}
 	
-//	if (ft_strcmp(TOKEN->name,"st") == 0)
+	//	if (ft_strcmp(TOKEN->name,"st") == 0)
 	write(file->fd, (char *)&value, 1);
 	file->header->prog_size += 1;
 	printf("%sREG! prog_size = %d%s\n", BLUE, file->header->prog_size, NORMAL);
@@ -175,16 +175,16 @@ void	dir(t_file *file)
 	{
 		value = ft_atoi(token) % 65536;
 		value = (value >> 8 & 0xff) | (value << 8 & 0xff00);
-//		if (ft_strcmp(TOKEN->name,"sti") == 0)
-			write(file->fd, (char *)&value, 2);
+		//		if (ft_strcmp(TOKEN->name,"sti") == 0)
+		write(file->fd, (char *)&value, 2);
 		file->header->prog_size += 2;
 	}
 	else
 	{
 		value = ft_atoi(token) % 4294967296;
 		value = (value >> 24 & 0xff) | (value >> 8 & 0xff00) |
-				(value << 8 & 0xff0000) | (value << 24 & 0xff000000);
-//		if (ft_strcmp(TOKEN->name,"sti") == 0)
+		(value << 8 & 0xff0000) | (value << 24 & 0xff000000);
+		//		if (ft_strcmp(TOKEN->name,"sti") == 0)
 		write(file->fd, (char *)&value, 4);
 		file->header->prog_size += 4;
 		printf("%sAFTERDIR: prog_size: %d%s\n)", GREEN, file->header->prog_size, NORMAL);
@@ -199,7 +199,8 @@ void	indir(t_file *file)
 	
 	value = 0;
 	number = ft_strsub(TOKEN->line, TOKEN->pos, 64);
-	if (TOKEN->line[TOKEN->pos] == ':')
+	printf("TOKEN: %c, LABEL: %c\n", TOKEN->line[TOKEN->pos], LABEL_CHAR);
+	if (TOKEN->line[TOKEN->pos] == LABEL_CHAR)
 		write_label(file, 2, number);
 	else
 	{
@@ -209,7 +210,6 @@ void	indir(t_file *file)
 		value = (value >> 8 & 0xff) | (value << 8 & 0xff00);
 		printf("%sINDIR: HERE, value = [%d]\n", MAGNETA, value);
 		
-//		value <<= 16;
 		write(file->fd, (char *)&value, 2);
 		file->header->prog_size += 2;
 	}
@@ -223,23 +223,29 @@ void	get_args(t_file *file)
 	{
 		while (TOKEN->line[TOKEN->pos] == ' ' || TOKEN->line[TOKEN->pos] == '\t')
 			TOKEN->pos++;
-
+		
 		if (TOKEN->line[TOKEN->pos] == 'r' && ++TOKEN->pos)
 		{
 			reg(file);
 		}
-		else if (TOKEN->line[TOKEN->pos] == '%' && ++TOKEN->pos)
+		else if (TOKEN->line[TOKEN->pos] == DIRECT_CHAR && ++TOKEN->pos)
 		{
 			dir(file);
 		}
-		else if (TOKEN->line[TOKEN->pos] == ':' || ft_isdigit(TOKEN->line[TOKEN->pos]) ||
+		else if (TOKEN->line[TOKEN->pos] == LABEL_CHAR || ft_isdigit(TOKEN->line[TOKEN->pos]) ||
 				 TOKEN->line[TOKEN->pos] == '-')
 		{
 			indir(file);
 		}
-		
-		while (TOKEN->line[TOKEN->pos++] != ',' && TOKEN->line[TOKEN->pos] != '\0')
-			;
+		printf("LINE: [%s] offset [%d], TOKEN: [%c], LABEL: [%c]\n", TOKEN->line, TOKEN->pos, TOKEN->line[TOKEN->pos], SEPARATOR_CHAR);
+		while (TOKEN->line[TOKEN->pos++] != SEPARATOR_CHAR && TOKEN->line[TOKEN->pos] != '\0') ;
+//			TOKEN->pos++;
+		printf("LINE: [%s] offset [%d], TOKEN: [%c], LABEL: [%c]\n", TOKEN->line, TOKEN->pos, TOKEN->line[TOKEN->pos], SEPARATOR_CHAR);
+//		if (TOKEN->line[TOKEN->pos] != '\0' && TOKEN->op_offset != -1 && TOKEN->line[TOKEN->pos++ ] != SEPARATOR_CHAR)
+//		{
+//			printf("Lexical error\n");
+//			exit (0);
+//		}
 	}
 }
 
@@ -251,11 +257,11 @@ void	bytecode(t_file *file, int pos)
 	bits = 0;
 	while (TOKEN->line[pos] != '\0')
 	{
-//		printf("%s\n\nBEFORE TOKEN->line[pos]: [%c]%s\n", CYAN, TOKEN->line[pos], NORMAL);
+		//		printf("%s\n\nBEFORE TOKEN->line[pos]: [%c]%s\n", CYAN, TOKEN->line[pos], NORMAL);
 		while (TOKEN->line[pos] == ' ' || TOKEN->line[pos] == '\t')
 			pos++;
-//		printf("%sAFTER TOKEN->line[pos]: [%c]%s\n", CYAN, TOKEN->line[pos], NORMAL);
-//		printf("%sBYTECODE!!!!!!\n%s", CYAN, NORMAL);
+		//		printf("%sAFTER TOKEN->line[pos]: [%c]%s\n", CYAN, TOKEN->line[pos], NORMAL);
+		//		printf("%sBYTECODE!!!!!!\n%s", CYAN, NORMAL);
 		if (TOKEN->line[pos] == 'r')
 			TOKEN->bytecode |= REG_CODE;
 		else if (TOKEN->line[pos] == '%')
@@ -265,74 +271,77 @@ void	bytecode(t_file *file, int pos)
 		
 		TOKEN->bytecode <<= 2;
 		bits += 2;
-//		printf("%sSUMMARY bytecode = [%d] bits = %d\n%s", CYAN, TOKEN->bytecode, bits, NORMAL);
+		//		printf("%sSUMMARY bytecode = [%d] bits = %d\n%s", CYAN, TOKEN->bytecode, bits, NORMAL);
 		while (TOKEN->line[pos++] != ',' && TOKEN->line[pos] != '\0') ;
 	}
-//	printf("%sFINAL BEFORE bytecode = [%d] bits = %d\n%s", CYAN, TOKEN->bytecode, bits, NORMAL);
+	//	printf("%sFINAL BEFORE bytecode = [%d] bits = %d\n%s", CYAN, TOKEN->bytecode, bits, NORMAL);
 	while (bits++ < 6)
 		TOKEN->bytecode <<= 1;
 	
-//	printf("%sFINAL AFTER bytecode = [%d] bits = %d\n%s", CYAN, TOKEN->bytecode, bits, NORMAL);
-//	if (ft_strcmp(TOKEN->name,"live") == 0)
-		write(file->fd, &(TOKEN->bytecode), 1);
+	//	printf("%sFINAL AFTER bytecode = [%d] bits = %d\n%s", CYAN, TOKEN->bytecode, bits, NORMAL);
+	//	if (ft_strcmp(TOKEN->name,"live") == 0)
+	write(file->fd, &(TOKEN->bytecode), 1);
 	
-//	file->header->prog_size += 1;
+	//	file->header->prog_size += 1;
 	
-//	printf("BYTE: prog_size: %d\n)", file->header->prog_size);
+	//	printf("BYTE: prog_size: %d\n)", file->header->prog_size);
 }
 
 
 void	handle_instructions(t_file *file)
 {
-	
-//	printf("BEG: prog_size: %d\n)", file->header->prog_size);
+	static int line;
+	printf("BEG, HI: prog_size: %d\n)", file->header->prog_size);
 	while (file->data[file->offset] != '\0')
 	{
-//		printf("HEREE\n");
+		//		printf("HEREE\n");
 		
 		TOKEN->pos = 0;
-//		printf("HERE2\n");
-//		if (!gnl(file))
-//		{
-//			printf("RETURN\n");
-//			return ;
-//		}
+		//		printf("HERE2\n");
+		//		if (!gnl(file))
+		//		{
+		//			printf("RETURN\n");
+		//			return ;
+		//		}
 		gnl(file);
-		
 		printf("GNL: prog_size: %d\n)", file->header->prog_size);
-		if (ft_strcmp(TOKEN->line, "\0"))
+		if (line < 2 && ft_strcmp(TOKEN->line, "\0") && line++)
 		{
-//			printf("HERE3\n");
+			line == 1 ? pname(file, 0): pcomment(file, 0);
+		}
+		else if (ft_strcmp(TOKEN->line, "\0"))
+		{
+			//			printf("HERE3\n");
 			get_name(file);
-//			printf("POLA\n");
-//			printf("TOKEN->name [%s]\n", TOKEN->name);
+			//			printf("POLA\n");
+			//			printf("TOKEN->name [%s]\n", TOKEN->name);
 			printf("%sAFTER GET_NAME: prog_size: %d%s\n)", BLUE, file->header->prog_size, NORMAL);
 			op_offset(file);
-//			printf("TOKEN->line [%s]\n", TOKEN->line);
+			printf("TOKEN->line [%s]\n", TOKEN->line);
 			printf("%sAFTER OP_OFF: prog_size: %d%s\n)", YELLOW, file->header->prog_size, NORMAL);
 			TOKEN->bytecode = 0;
-//			if (ft_strcmp(TOKEN->name,"live") == 0)
+			//			if (ft_strcmp(TOKEN->name,"live") == 0)
 			if (TOKEN->op_offset != -1)
 			{
-//				printf("TOKEN->name [%s]\n", TOKEN->name);
+				//				printf("TOKEN->name [%s]\n", TOKEN->name);
 				write(file->fd, (char *)&(op_tab[TOKEN->op_offset].op_code), 1);
 				
 			}
 			if (op_tab[TOKEN->op_offset].coding_byte)
 				bytecode(file, TOKEN->pos);
-	//		printf("HERE4\n");
+			printf("HERE4\n");
 			
-	//		printf("HERE5\n");
-	//		if (TOKEN->name != "\0")
-	//		{
-	//			printf("HERE\n");
+			//		printf("HERE5\n");
+			//		if (TOKEN->name != "\0")
+			//		{
+			//			printf("HERE\n");
 			get_args(file);
 		}
 		printf("%s[%s]: prog_size: %d%s\n)", CYAN, TOKEN->line, file->header->prog_size, NORMAL);
-	//		}
-//		printf("HERE6\n");
-//		printf("%sfile->data[%d]: [%c]%s\n", RED, file->offset, file->data[file->offset],  NORMAL);
-}
+		//		}
+		//		printf("HERE6\n");
+		//		printf("%sfile->data[%d]: [%c]%s\n", RED, file->offset, file->data[file->offset],  NORMAL);
+	}
 }
 
 
@@ -350,7 +359,7 @@ void	assembler(char *data, char *filename)
 	file->fd = open(ft_strjoin(file->name, ".corx"), O_CREAT | O_WRONLY, 0644);
 	printf("HERE\n");
 	handle_labels(file);
-		printf("prog_size [%d]\n", file->header->prog_size);
+	printf("prog_size [%d]\n", file->header->prog_size);
 	write_header(file);
 	file->header->prog_size = 0;
 	TOKEN->op_offset = -1;
@@ -375,7 +384,8 @@ int		main(int ac, char **av)
 		printf("HERE2\n");
 		assembler(data, av[1]);
 		
-	
+		
 	}
 	return (0);
 }
+

@@ -61,7 +61,7 @@ typedef struct	s_file
 	header_t 	*header;
 	char		*data;
 	char		*name;
-	char		*comment;
+	int			cur_line;
 	int			offset;
 	int			op_offset;
 	char		*line;
@@ -117,6 +117,8 @@ void	vargs(t_file *file);
 void	add_label(t_file *file, char *label);
 
 /* header */
+int 	pname(t_file *file, int i);
+int		pcomment(t_file *file, int i);
 void	handle_header(t_file *file);
 void	write_header(t_file *file);
 

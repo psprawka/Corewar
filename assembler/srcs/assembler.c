@@ -63,7 +63,7 @@ void	get_name(t_file *file)
 	int		index;
 	
 	
-	printf("GET NAMEEEEE NAMEEEE\n");
+//	printf("GET NAMEEEEE NAMEEEE\n");
 //		printf("BEFORE: %sTOKEN->pos: [%c]\n%s", GREEN, TOKEN->line[TOKEN->pos], NORMAL);
 //	printf("%stmp: [%s], TOKEN->name: [%s]%s\n",YELLOW, tmp, TOKEN->name, NORMAL);
 	index = 0;
@@ -77,7 +77,7 @@ void	get_name(t_file *file)
 	tmp[index] = '\0';
 	if (TOKEN->line[TOKEN->pos] == '\0')
 		TOKEN->op_offset = -1;
-	printf("up to hereee\n");
+//	printf("up to hereee\n");
 	if (TOKEN->line[TOKEN->pos] == ':')
 	{
 		TOKEN->pos++;
@@ -87,6 +87,7 @@ void	get_name(t_file *file)
 	else
 	{
 		TOKEN->name = ft_strdup(tmp);
+		TOKEN->icode = file->header->prog_size + 1;
 //		op_tab[TOKEN->op_offset].op_code <<= 16;
 //		printf("%stmp: [%s], TOKEN->name: [%s], op_code: [%d]%s\n",GREEN, tmp, TOKEN->name, NORMAL);
 	}
@@ -117,17 +118,15 @@ void	write_label(t_file *file, int size, char *token)
 		if (ft_strcmp(array_label, label) == 0)
 		{
 			number = ft_strsub(file->labels[i], ft_strlen_chr(file->labels[i], ':') + 1, 100);
-			
-			printf("%sLABEL: [%s], positions: array %ld, current %d\n", MAGNETA, label, ft_atoi(number),file->header->prog_size);
+			position = ft_atoi(number) - TOKEN->icode;
+			printf("%sLABEL: [%s], positions: array %ld, current %d, instr %d\n", MAGNETA, label, ft_atoi(number),file->header->prog_size, TOKEN->icode);
 			if (size == 2 && (file->header->prog_size += 2))
 			{
-				position = ft_atoi(number) - file->header->prog_size;
 				position = (position >> 8 & 0xff) | (position << 8 & 0xff00);
 				write(file->fd, (char *)&position, 2);
 			}
 			else if (size == 4 && (file->header->prog_size += 4))
 			{
-				position = ft_atoi(number) - file->header->prog_size;
 				position = (position >> 24 & 0xff) | (position >> 8 & 0xff00) |
 				(position << 8 & 0xff0000) | (position << 24 & 0xff000000);
 				write(file->fd, (char *)&position, 4);
@@ -204,8 +203,12 @@ void	indir(t_file *file)
 		write_label(file, 2, number);
 	else
 	{
+		
 		value = ft_atoi(number) % 65536;
+		printf("%sINDIR: HERE, value = [%d]\n", MAGNETA, value);
 		value = (value >> 8 & 0xff) | (value << 8 & 0xff00);
+		printf("%sINDIR: HERE, value = [%d]\n", MAGNETA, value);
+		
 //		value <<= 16;
 		write(file->fd, (char *)&value, 2);
 		file->header->prog_size += 2;
@@ -229,7 +232,8 @@ void	get_args(t_file *file)
 		{
 			dir(file);
 		}
-		else if (TOKEN->line[TOKEN->pos] == ':' || ft_isdigit(TOKEN->line[TOKEN->pos]))
+		else if (TOKEN->line[TOKEN->pos] == ':' || ft_isdigit(TOKEN->line[TOKEN->pos]) ||
+				 TOKEN->line[TOKEN->pos] == '-')
 		{
 			indir(file);
 		}
@@ -256,7 +260,7 @@ void	bytecode(t_file *file, int pos)
 			TOKEN->bytecode |= REG_CODE;
 		else if (TOKEN->line[pos] == '%')
 			TOKEN->bytecode |= DIR_CODE;
-		else if (TOKEN->line[pos] == ':' || ft_isdigit(TOKEN->line[pos]))
+		else if (TOKEN->line[pos] == ':' || ft_isdigit(TOKEN->line[pos]) || TOKEN->line[pos] == '-')
 			TOKEN->bytecode |= IND_CODE;
 		
 		TOKEN->bytecode <<= 2;
@@ -284,7 +288,7 @@ void	handle_instructions(t_file *file)
 //	printf("BEG: prog_size: %d\n)", file->header->prog_size);
 	while (file->data[file->offset] != '\0')
 	{
-		printf("HEREE\n");
+//		printf("HEREE\n");
 		
 		TOKEN->pos = 0;
 //		printf("HERE2\n");
@@ -339,7 +343,9 @@ void	assembler(char *data, char *filename)
 	file = (t_file *)malloc(sizeof(t_file));
 	file->data = data;
 	file->offset = 0;
+	printf("HERE2423t63421\n");
 	handle_header(file);
+	printf("HERE3\n");
 	file->name = ft_strncpy(filename, ft_strlen(filename) - 2);
 	file->fd = open(ft_strjoin(file->name, ".corx"), O_CREAT | O_WRONLY, 0644);
 	printf("HERE\n");
@@ -366,6 +372,7 @@ int		main(int ac, char **av)
 	else
 	{
 		data = readandstore(av[1]);
+		printf("HERE2\n");
 		assembler(data, av[1]);
 		
 	

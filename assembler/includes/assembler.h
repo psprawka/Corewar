@@ -24,6 +24,7 @@
 # define LINE_MAX_SIZE 			300
 # define INSTRUCTION_MAX_SIZE 	5
 # define TOKEN 					file->token
+# define DATA					file->data 
 
 # define NORMAL		"\x1B[0m"
 # define BLACK		"\x1B[30m"
@@ -50,6 +51,7 @@ typedef struct	s_token
 	int			op_offset;
 	char		*line;
 	int			bytecode;
+	int			icode; 
 	int			pos;
 }				t_token;
 
@@ -59,6 +61,7 @@ typedef struct	s_file
 	header_t 	*header;
 	char		*data;
 	char		*name;
+	char		*comment;
 	int			offset;
 	int			op_offset;
 	char		*line;
@@ -86,9 +89,11 @@ typedef struct	s_op
 
 /* ft_libft */
 char		*ft_strsub(char *s, int start, size_t len);
+int			ft_strncmp(char *s1, char *s2, int n);
 void		*ft_memset(void *s, int c, size_t n);
 char		*ft_strchr(char *str, char to_find);
 int			ft_strlen_chr(char *str, char c);
+void		ft_strcpy(char *dest, char *src);
 char 		*ft_strncpy(char *str, int size);
 char		*ft_strjoin(char *s1, char *s2);
 int			ft_strcmp(char *s1, char *s2);

@@ -108,14 +108,14 @@ int	gnl(t_file *file)
 {
 	int		size;
 	char	*temp;
-	printf("GNL printf\n");
+//	printf("GNL printf\n");
 	temp = ft_strnew(BUFF_SIZE);
 	TOKEN->line = ft_strnew(1);
 	while ((file->data[file->offset] == ' ' || file->data[file->offset] == '\n'
 		   || file->data[file->offset] == '\t') && file->data[file->offset] != '\0')
 		file->offset++;
-	printf("file->offset: %d\n", file->offset);
-	printf("size = %d\n", size);
+//	printf("file->offset: %d\n", file->offset);
+//	printf("size = %d\n", size);
 	while (file->data[file->offset] != '\n' && file->data[file->offset] != '\0')
 	{
 		size = 0;
@@ -130,7 +130,7 @@ int	gnl(t_file *file)
 	printf("%sLINE: [%s]\n%s", YELLOW, TOKEN->line, NORMAL);
 	if (ft_strcmp(TOKEN->line, "\0") == 0)
 		return (0);
-	printf("POLAAAA\n");
+//	printf("POLAAAA\n");
 	return (1);
 }
 

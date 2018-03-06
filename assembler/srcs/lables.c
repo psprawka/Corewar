@@ -65,10 +65,11 @@ void	vargs(t_file *file) //validate args
 		while (TOKEN->line[TOKEN->pos] == ' ' || TOKEN->line[TOKEN->pos] == '\t' ||
 			   TOKEN->line[TOKEN->pos] == '\n')
 			TOKEN->pos++;
-		//		printf("%sLine: [%s], char: [%c]\n%s", CYAN, TOKEN->line, TOKEN->line[TOKEN->pos], NORMAL);
-		if (ft_strchr("r%:123456789", TOKEN->line[TOKEN->pos]))
+		printf("%sLine: [%s], char: [%c]\n%s", CYAN, TOKEN->line, TOKEN->line[TOKEN->pos], NORMAL);
+		if (ft_strchr("r%:-123456789", TOKEN->line[TOKEN->pos]))
 		{
 			prog_size(file, cycle);
+			printf("HERE\n");
 			while (TOKEN->line[TOKEN->pos++] != SEPARATOR_CHAR && TOKEN->line[TOKEN->pos] != '\0') ;
 		}
 		else
@@ -129,13 +130,14 @@ void	vname(t_file *file) //validate name
 
 void	handle_labels(t_file *file)
 {
+	printf("HERE2\n");
 	file->token = (t_token *)malloc(sizeof(t_token));
 	file->labels = (char **)malloc(sizeof(char *) * 300);
 	TOKEN->name = ft_strnew(5);
 	while (file->data[file->offset] != '\0')
 	{
 		TOKEN->pos = 0;
-		printf("HERE2\n");
+		
 //		if (!gnl(file))
 //		{
 			printf("RETURN\n");
@@ -147,13 +149,13 @@ void	handle_labels(t_file *file)
 		{
 		
 			vname(file);
-			printf("HERE3\n");
+//			printf("HERE3\n");
 			op_offset(file);
-			printf("HERE3\n");
+//			printf("HERE3\n");
 			vargs(file);
-			printf("HERE3\n");
+//			printf("HERE3\n");
 		}
-		printf("HERE6\n");
+//		printf("HERE6\n");
 //		printf("%sfile->data[%d]: [%c]%s\n", RED, file->offset, file->data[file->offset],  NORMAL);
 	}
 }

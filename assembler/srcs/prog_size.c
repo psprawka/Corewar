@@ -48,7 +48,7 @@ int		varg(t_file *file, char t, int arg)
 	
 	bits = op_tab[TOKEN->op_offset].args[arg];
 	//	printf("%stype = %c\n%s", MAGNETA, t, NORMAL);
-	type = (t == 'r' ? T_REG : (t == '%' ? T_DIR : (t == ':' ? T_LAB : T_IND)));
+	type = (t == 'r' ? T_REG : (t == '%' ? T_DIR : T_IND));
 	//	printf("%sBITS %d\nTYPE %d%s\n", YELLOW, bits, type, NORMAL);
 	if (bits & type)
 	{
@@ -75,14 +75,7 @@ void	prog_size(t_file *file, int cycle)
 			exit (0);
 		//		printf("Adding %d cause of dir!\nprog_size = %d\n%s", (op_tab[TOKEN->op_offset].dir_size == 1 ? 2 : 4), file->header->prog_size, NORMAL);
 	}
-	else if (TOKEN->line[TOKEN->pos] == ':')
-	{
-		if (varg(file, ':', cycle) == 0)
-			exit (0);
-		file->header->prog_size += 2;
-		//		printf("Adding 2 cause of label!\nprog_size = %d\n%s", file->header->prog_size, NORMAL);
-	}
-	else if (ft_isdigit(TOKEN->line[TOKEN->pos]))
+	else if (ft_isdigit(TOKEN->line[TOKEN->pos]) || TOKEN->line[TOKEN->pos] == '-' || TOKEN->line[TOKEN->pos] == ':')
 	{
 		if (varg(file, ' ', cycle) == 0)
 			exit (0);

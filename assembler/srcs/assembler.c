@@ -240,12 +240,15 @@ void	get_args(t_file *file)
 		printf("LINE: [%s] offset [%d], TOKEN: [%c], LABEL: [%c]\n", TOKEN->line, TOKEN->pos, TOKEN->line[TOKEN->pos], SEPARATOR_CHAR);
 		while (TOKEN->line[TOKEN->pos++] != SEPARATOR_CHAR && TOKEN->line[TOKEN->pos] != '\0') ;
 //			TOKEN->pos++;
+		
+		while (TOKEN->line[TOKEN->pos] == ' ' || TOKEN->line[TOKEN->pos] == '\t')
+			TOKEN->pos++;
 		printf("LINE: [%s] offset [%d], TOKEN: [%c], LABEL: [%c]\n", TOKEN->line, TOKEN->pos, TOKEN->line[TOKEN->pos], SEPARATOR_CHAR);
-//		if (TOKEN->line[TOKEN->pos] != '\0' && TOKEN->op_offset != -1 && TOKEN->line[TOKEN->pos++ ] != SEPARATOR_CHAR)
-//		{
-//			printf("Lexical error\n");
-//			exit (0);
-//		}
+		if (TOKEN->line[TOKEN->pos] != '\0' && TOKEN->op_offset != -1 && TOKEN->line[TOKEN->pos++ - 1] != SEPARATOR_CHAR)
+		{
+			printf("Lexical error\n");
+			exit (0);
+		}
 	}
 }
 

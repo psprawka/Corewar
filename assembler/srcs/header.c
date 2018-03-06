@@ -20,9 +20,8 @@ int 	pname(t_file *file, int i)
 	printf("IN NAME\n");
 	name = ft_strnew(PROG_NAME_LENGTH);
 	printf("1: [%c] BEFORE NAME\n", TOKEN->line[TOKEN->pos]);
-	while (TOKEN->line[TOKEN->pos] != '\0' && (TOKEN->line[TOKEN->pos] == '\n' ||
-					TOKEN->line[TOKEN->pos] == ' ' || TOKEN->line[TOKEN->pos] == '\t'))
-	TOKEN->pos++;
+	while (TOKEN->line[TOKEN->pos] != '\0' && (TOKEN->line[TOKEN->pos] == ' ' || TOKEN->line[TOKEN->pos] == '\t'))
+		TOKEN->pos++;
 	printf("2: [%c] BEFORE NAME\n", TOKEN->line[TOKEN->pos]);
 	if (ft_strncmp(&(TOKEN->line[TOKEN->pos]), NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
 	{
@@ -78,19 +77,25 @@ int		pcomment(t_file *file, int i)
 	TOKEN->pos += ft_strlen(COMMENT_CMD_STRING);
 	while (TOKEN->line[TOKEN->pos] != '\0' && (TOKEN->line[TOKEN->pos] == ' ' || TOKEN->line[TOKEN->pos] == '\t'))
 		TOKEN->pos++;
-	printf("3: [%c] BEFORE NAME\n", TOKEN->line[TOKEN->pos]);
+	printf("3: [%c] %d BEFORE COMM\n", TOKEN->line[TOKEN->pos], TOKEN->pos);
 	
-	if (file->data[TOKEN->pos++] != '"')
+	if (TOKEN->line[TOKEN->pos++] != '"')
+	{
+		printf("HERE22222\n");
 		return (-1);
+	}
 	printf("4: [%c] BEFORE NAME\n", TOKEN->line[TOKEN->pos]);
 	while(TOKEN->line[TOKEN->pos] != '"')
-		com[i++] = file->data[TOKEN->pos++];
+	{
+		com[i++] = TOKEN->line[TOKEN->pos++];
+		printf("4.1: i = %d [%c] BEFORE NAME\n", i, TOKEN->line[TOKEN->pos]);
+	}
 	TOKEN->pos++;
 	printf("5: [%c] BEFORE NAME\n", TOKEN->line[TOKEN->pos]);
 	while (TOKEN->line[TOKEN->pos] != '\0' && (TOKEN->line[TOKEN->pos] == ' ' || TOKEN->line[TOKEN->pos] == '\t'))
 		TOKEN->pos++;
 	printf("6: [%c] BEFORE NAME\n", TOKEN->line[TOKEN->pos]);
-	if (TOKEN->line[TOKEN->pos] != '\n')
+	if (TOKEN->line[TOKEN->pos] != '\0')
 	{
 		printf("HERE55555\n");
 		return (-1);

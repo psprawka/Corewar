@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assembler.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psprawka <psprawka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: liamprior <liamprior@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 10:12:08 by psprawka          #+#    #+#             */
-/*   Updated: 2018/02/19 10:12:10 by psprawka         ###   ########.fr       */
+/*   Updated: 2018/03/07 00:12:59 by liamprior        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,11 +244,11 @@ void	get_args(t_file *file)
 		while (TOKEN->line[TOKEN->pos] == ' ' || TOKEN->line[TOKEN->pos] == '\t')
 			TOKEN->pos++;
 		printf("LINE: [%s] offset [%d], TOKEN: [%c], LABEL: [%c]\n", TOKEN->line, TOKEN->pos, TOKEN->line[TOKEN->pos], SEPARATOR_CHAR);
-		if (TOKEN->line[TOKEN->pos] != '\0' && TOKEN->op_offset != -1 && TOKEN->line[TOKEN->pos++ - 1] != SEPARATOR_CHAR)
-		{
-			printf("Lexical error\n");
-			exit (0);
-		}
+		// if (TOKEN->line[TOKEN->pos] != '\0' && TOKEN->op_offset != -1 && TOKEN->line[TOKEN->pos++ - 1] != SEPARATOR_CHAR)
+		// {
+		// 	printf("Lexical error\n");
+		// 	exit (0);
+		// }
 	}
 }
 
@@ -359,7 +359,7 @@ void	assembler(char *data, char *filename)
 	handle_header(file);
 	printf("HERE3\n");
 	file->name = ft_strncpy(filename, ft_strlen(filename) - 2);
-	file->fd = open(ft_strjoin(file->name, ".corx"), O_CREAT | O_WRONLY, 0644);
+	file->fd = open(ft_strjoin(file->name, ".cor"), O_CREAT | O_WRONLY, 0644);
 	printf("HERE\n");
 	handle_labels(file);
 	printf("prog_size [%d]\n", file->header->prog_size);

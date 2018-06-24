@@ -6,7 +6,7 @@
 #    By: psprawka <psprawka@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/09 23:21:55 by psprawka          #+#    #+#              #
-#    Updated: 2018/06/24 06:10:28 by psprawka         ###   ########.fr        #
+#    Updated: 2018/06/24 09:40:53 by psprawka         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,10 +19,10 @@ SRCS_DIR		= srcs/
 INSTRUCTIONS	= instructions/
 
 SRCS = $(SRCS_DIR)main.c \
-	$(SRCS_DIR)assembler_aux2.c \
 	$(SRCS_DIR)lables.c \
 	$(SRCS_DIR)header.c \
 	$(SRCS_DIR)prog_size.c \
+	$(SRCS_DIR)read_data.c \
 	$(SRCS_DIR)tools.c \
 	$(SRCS_DIR)parse.c \
 	$(SRCS_DIR)$(INSTRUCTIONS)direct.c \

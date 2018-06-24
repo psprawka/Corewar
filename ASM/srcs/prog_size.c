@@ -6,7 +6,7 @@
 /*   By: psprawka <psprawka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/04 14:35:48 by psprawka          #+#    #+#             */
-/*   Updated: 2018/06/24 07:15:10 by psprawka         ###   ########.fr       */
+/*   Updated: 2018/06/24 10:00:55 by psprawka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int		varg(char t, int arg)
 	if (t == 'r')
 		type = T_REG;
 	else
-		type = t == '%' ? T_DIR : T_IND;
+		type = (t == '%' ? T_DIR : T_IND);
 	if (bits & type)
 		return (1);
-	ft_printf("Invalid parameter for instruction %s\n", TOKEN->name);
+	error(2, TOKEN->name, true);
 	return (0);
 }
 

@@ -6,13 +6,17 @@
 /*   By: psprawka <psprawka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 10:12:08 by psprawka          #+#    #+#             */
-/*   Updated: 2018/06/24 07:14:47 by psprawka         ###   ########.fr       */
+/*   Updated: 2018/06/24 10:14:45 by psprawka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-void	op_offset(void)
+/*
+**	Get_op_offset(), based on instruction's name, finds an offset in g_op_tab
+**	table, assigns it to TOKEN->op_offset and increases program's size.
+*/
+void	get_op_offset(void)
 {
 	int		i;
 
@@ -21,7 +25,7 @@ void	op_offset(void)
 		return ;
 	while (g_op_tab[i].name != NULL)
 	{
-		if (ft_strcmp(g_op_tab[i].name, TOKEN->name) == 0)
+		if (!ft_strcmp(g_op_tab[i].name, TOKEN->name))
 		{
 			TOKEN->op_offset = i;
 			g_file.header->prog_size += (g_op_tab[i].coding_byte == 1) ? 2 : 1;
@@ -33,53 +37,52 @@ void	op_offset(void)
 	exit(0);
 }
 
-char	*readandstore(char *filename)
+void	get_byte_code(int pos)
 {
-	int		fd;
-	char	*buff;
-	char	*final;
+	int		bits;
 
-	fd = open(filename, O_RDONLY);
-	final = "\0";
-	buff = ft_strnew(BUFF_SIZE);
-	while (read(fd, buff, BUFF_SIZE - 1) > 0)
+	bits = 0;
+	while (TOKEN->line[pos])
 	{
-		final = ft_strjoin(final, buff, 0);
-		ft_bzero(buff, BUFF_SIZE);
+		while (TOKEN->line[pos] && IS_WHITE(TOKEN->line[pos]))
+			pos++;
+		if (TOKEN->line[pos] == 'r')
+			TOKEN->bytecode |= REG_CODE;
+		else if (TOKEN->line[pos] == '%')
+			TOKEN->bytecode |= DIR_CODE;
+		else if (TOKEN->line[pos] == ':' || IS_DIGIT(TOKEN->line[pos]) || TOKEN->line[pos] == '-')
+			TOKEN->bytecode |= IND_CODE;
+		TOKEN->bytecode <<= 2;
+		bits += 2;
+		while (TOKEN->line[pos++] != ',' && TOKEN->line[pos])
+			;
 	}
-	return (final);
+	while (bits++ < 6)
+		TOKEN->bytecode <<= 1;
+	write(g_file.fd, &(TOKEN->bytecode), 1);
 }
 
-void	rm_comment(void)
+/*
+**	An error function just handles all error messages based on the number
+**	sent in function call. If number is not found, strerror mesage is sent.
+**	I bool flag (ifailure) is set to true func returns EXIT_FAILURE,
+**	otherwise EXIT_SUCCESS.
+*/
+int		error(int errnb, char *msg, bool ifailure)
 {
-	int i;
-
-	i = 0;
-	while (TOKEN->line[i] != COMMENT_CHAR && TOKEN->line[i] != '\0')
-		i++;
-	TOKEN->line[i] = '\0';
-}
-
-int		gnl(void)
-{
-	int		size;
-	char	*temp;
-
-	temp = ft_strnew(BUFF_SIZE);
-	TOKEN->line = ft_strnew(1);
-	while ((g_file.data[g_file.offset] == ' ' || g_file.data[g_file.offset] == '\n'
-	|| g_file.data[g_file.offset] == '\t') && g_file.data[g_file.offset] != '\0')
-		g_file.offset++;
-	while (g_file.data[g_file.offset] != '\n' && g_file.data[g_file.offset] != '\0')
-	{
-		size = 0;
-		while (size < BUFF_SIZE && g_file.data[g_file.offset] != '\n' &&
-		g_file.data[g_file.offset] != '\0')
-			temp[size++] = g_file.data[g_file.offset++];
-		TOKEN->line = ft_strjoin(TOKEN->line, temp, 0);
-	}
-	rm_comment();
-	if (ft_strcmp(TOKEN->line, "\0") == 0)
-		return (0);
-	return (1);
+	if (errnb == 1)
+		ft_printf("Usage: ./asm <sourceg_file.s>\n");
+	else if (errnb == 2)
+		ft_printf("Invalid parameter for instruction %s\n", msg);
+	else if (errnb == 3)
+		ft_printf("No such label %s while attempting to dereference\n", msg);
+	else if (errnb == 4)
+		ft_printf("Lexical error\n");
+	else if (errnb == 5)
+		ft_printf("Invalid parameter for instruction %s\n", msg);
+	else if (errnb == 6)
+		ft_printf("Syntax error INSTRUCTION \"r\"\n");
+	else
+		ft_printf("%s%s: %s%s\n", RED, msg, strerror(errno), NORMAL);
+	return (ifailure == true ? EXIT_FAILURE : EXIT_SUCCESS);
 }

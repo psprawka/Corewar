@@ -6,7 +6,7 @@
 /*   By: psprawka <psprawka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/20 18:35:16 by psprawka          #+#    #+#             */
-/*   Updated: 2018/06/24 05:05:11 by psprawka         ###   ########.fr       */
+/*   Updated: 2018/06/24 10:11:46 by psprawka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 # define IS_DIGIT(c)		(c > 47 && c < 58) ? 1 : 0
 # define IS_PRINTABLE(c)	(c > 31 && c < 127) ? 1 : 0
 # define IS_WHITE(c)		(c == '\t' || c == ' ' || c == '\v') ? 1 : 0
+# define IS_WHITE_NL(c)		(c == '\t' || c == ' ' || c == '\v' || c == '\n') ? 1 : 0
 
 # define TO_UPPER(c)		(c > 96 && c < 123) ? c - 32 : c
 # define TO_LOWER(c)		(c > 64 && c < 91) ? c + 32 : c

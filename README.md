@@ -18,10 +18,5 @@ us that you can write bits and pieces of Corewar ASM. This means that the champi
 you should render for this project only needs to scare the bejesus out of a
 neurasthenic hedgehog.
 
-## Made by
-| | |
-|:-:|:-:|
-| 🇫🇷[Terence Lê Huu Phuong](https://github.com/tle-huu) | VM |
-| 🇵🇱[Paulina Sprawka](https://github.com/psprawka) | ASM |
-| | |
+## Made by 🇫🇷[Terence](https://github.com/tle-huu) (VM) and 🇵🇱[Meee](https://github.com/psprawka) (ASM)
 </br>

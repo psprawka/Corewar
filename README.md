@@ -1,4 +1,4 @@
-# Corewar; _"To defeat, or not to be defeated, that is the question"_ - WarriorIV ⚔️🤺
+# Corewar ⚔️🤺
 
 This is a game about writting the AI warriors/champions/viruses/players and running them in a special selected section of memory (so-called core). Two or more warriors are entered into the memory array at randomly chosen positions and not knowing the enemies' positions, they have to defeat them all and win a match. They take turns, one by one, per which one instruction is executed. The end ensues when all the processes are dead; the last warrior reported to be “alive” wins the game. 🏆
  

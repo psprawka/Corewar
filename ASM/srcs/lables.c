@@ -6,13 +6,13 @@
 /*   By: psprawka <psprawka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 10:12:08 by psprawka          #+#    #+#             */
-/*   Updated: 2018/06/24 10:12:23 by psprawka         ###   ########.fr       */
+/*   Updated: 2018/06/24 10:58:40 by psprawka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-void	add_label(char *label)
+void			add_label(char *label)
 {
 	char	*buff;
 
@@ -24,63 +24,7 @@ void	add_label(char *label)
 	g_file.labels_nb++;
 }
 
-void	vargs(void)
-{
-	int		cycle;
-
-	cycle = 0;
-	while (cycle < g_op_tab[TOKEN->op_offset].arg_nb)
-	{
-		while (IS_WHITE(TOKEN->line[TOKEN->pos]))
-			TOKEN->pos++;
-		if (ft_strchr("r%:-123456789", TOKEN->line[TOKEN->pos]))
-		{
-			prog_size(cycle);
-			while (TOKEN->line[TOKEN->pos++] != SEPARATOR_CHAR &&
-				TOKEN->line[TOKEN->pos])
-				;
-		}
-		else
-		{
-			error(5, TOKEN->name, true);
-			exit(0);
-		}
-		cycle++;
-	}
-}
-
-void	vname(void)
-{
-	char	tmp[LINE_MAX_SIZE];
-	int		index;
-
-	index = 0;
-	while (TOKEN->line[TOKEN->pos] && IS_WHITE(TOKEN->line[TOKEN->pos]))
-		TOKEN->pos++;
-	while (TOKEN->line[TOKEN->pos] && !IS_WHITE(TOKEN->line[TOKEN->pos]))
-	{
-		if (ft_strchr(LABEL_CHARS, TOKEN->line[TOKEN->pos]))
-			tmp[index++] = TOKEN->line[TOKEN->pos++];
-		else if (TOKEN->line[TOKEN->pos] == ':')
-			break ;
-		else
-		{
-			error(4, NULL, true);
-			exit(0);
-		}
-	}
-	tmp[index] = '\0';
-	if (TOKEN->line[TOKEN->pos] == ':')
-	{
-		add_label(tmp);
-		TOKEN->pos++;
-		vname();
-	}
-	else
-		TOKEN->name = ft_strdup(tmp);
-}
-
-void	handle_labels(void)
+void			handle_labels(void)
 {
 	static int	line;
 
@@ -96,15 +40,14 @@ void	handle_labels(void)
 			line++ == 0 ? parse_name() : parse_comment();
 		else if (ft_strcmp(TOKEN->line, "\0"))
 		{
-			vname();
+			valid_instr_name();
 			get_op_offset();
-			vargs();
+			valid_instr_values();
 		}
 	}
 }
 
-
-void	write_label_aux(int size, int *position, int i)
+static void		write_label_aux(int size, int *position, int i)
 {
 	char	*number;
 
@@ -123,7 +66,7 @@ void	write_label_aux(int size, int *position, int i)
 	}
 }
 
-void	write_label(int size)
+void			write_label(int size)
 {
 	char	*label;
 	char	*array_label;

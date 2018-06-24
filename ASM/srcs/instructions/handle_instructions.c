@@ -6,7 +6,7 @@
 /*   By: psprawka <psprawka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 06:04:08 by psprawka          #+#    #+#             */
-/*   Updated: 2018/06/24 09:53:18 by psprawka         ###   ########.fr       */
+/*   Updated: 2018/06/24 10:47:37 by psprawka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void			handle_instructions(void)
 		if (TOKEN->op_offset != -1)
 			write(g_file.fd, (char *)&(g_op_tab[TOKEN->op_offset].op_code), 1);
 		if (g_op_tab[TOKEN->op_offset].coding_byte)
-			get_byte_code(TOKEN->pos);
+			count_byte_code(TOKEN->pos);
 		get_instruction_values();
 	}
 }

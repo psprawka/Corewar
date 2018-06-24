@@ -6,13 +6,13 @@
 /*   By: psprawka <psprawka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/24 09:36:25 by psprawka          #+#    #+#             */
-/*   Updated: 2018/06/24 09:49:03 by psprawka         ###   ########.fr       */
+/*   Updated: 2018/06/24 10:31:52 by psprawka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-char	*readandstore(char *filename)
+char			*readandstore(char *filename)
 {
 	int		fd;
 	char	*buff;
@@ -29,7 +29,7 @@ char	*readandstore(char *filename)
 	return (final);
 }
 
-void	rm_comment(void)
+static void		rm_comment(void)
 {
 	int i;
 
@@ -39,7 +39,7 @@ void	rm_comment(void)
 	TOKEN->line[i] = '\0';
 }
 
-int		gnl(void)
+int				gnl(void)
 {
 	int		size;
 	char	*temp;

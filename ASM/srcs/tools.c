@@ -6,7 +6,7 @@
 /*   By: psprawka <psprawka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 10:12:08 by psprawka          #+#    #+#             */
-/*   Updated: 2018/06/24 10:14:45 by psprawka         ###   ########.fr       */
+/*   Updated: 2018/06/24 10:43:20 by psprawka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,33 +33,8 @@ void	get_op_offset(void)
 		}
 		i++;
 	}
-	ft_printf("Invalid instruction [%s][%s]\n", TOKEN->line, TOKEN->name);
+	error(7, TOKEN->line, true);
 	exit(0);
-}
-
-void	get_byte_code(int pos)
-{
-	int		bits;
-
-	bits = 0;
-	while (TOKEN->line[pos])
-	{
-		while (TOKEN->line[pos] && IS_WHITE(TOKEN->line[pos]))
-			pos++;
-		if (TOKEN->line[pos] == 'r')
-			TOKEN->bytecode |= REG_CODE;
-		else if (TOKEN->line[pos] == '%')
-			TOKEN->bytecode |= DIR_CODE;
-		else if (TOKEN->line[pos] == ':' || IS_DIGIT(TOKEN->line[pos]) || TOKEN->line[pos] == '-')
-			TOKEN->bytecode |= IND_CODE;
-		TOKEN->bytecode <<= 2;
-		bits += 2;
-		while (TOKEN->line[pos++] != ',' && TOKEN->line[pos])
-			;
-	}
-	while (bits++ < 6)
-		TOKEN->bytecode <<= 1;
-	write(g_file.fd, &(TOKEN->bytecode), 1);
 }
 
 /*
@@ -82,6 +57,8 @@ int		error(int errnb, char *msg, bool ifailure)
 		ft_printf("Invalid parameter for instruction %s\n", msg);
 	else if (errnb == 6)
 		ft_printf("Syntax error INSTRUCTION \"r\"\n");
+	else if (errnb == 7)
+		ft_printf("Invalid instruction [%s][%s]\n", msg);
 	else
 		ft_printf("%s%s: %s%s\n", RED, msg, strerror(errno), NORMAL);
 	return (ifailure == true ? EXIT_FAILURE : EXIT_SUCCESS);

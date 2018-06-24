@@ -6,7 +6,7 @@
 /*   By: psprawka <psprawka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 10:56:16 by psprawka          #+#    #+#             */
-/*   Updated: 2018/06/24 10:20:44 by psprawka         ###   ########.fr       */
+/*   Updated: 2018/06/24 10:55:52 by psprawka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,45 +36,27 @@ extern t_op						g_op_tab[17];
 extern t_file					g_file;
 
 
-/*
-**	tools.c
-*/
-void		get_op_offset(void);
-void		get_byte_code(int pos);
-int			error(int errnb, char *msg, bool ifailure);
 
 
 
 /*
-**	read_data.c
+**	labels.c
 */
-char 		*readandstore(char *filename);
-int			gnl(void);
+void			add_label(char *label);
+void			handle_labels(void);
+void			write_label(int size);
 
+/*
+**	count.c
+*/
+void			count_prog_size(int cycle);
+void			count_byte_code(int pos);
 
-/* labels */
-void	add_label(char *label);
-void	vargs(void);
-void	vname_aux(void);
-void	vname(void);
-void	handle_labels(void);
-
-/* header */
-int 	parse_name(void);
-int		parse_comment(void);
-void	handle_header(void);
-void	write_header(void);
-
-/* prog_size */
-int		varg(char t, int arg);
-void	prog_size(int cycle);
-
-/* terence norm */
-void	write_label_aux(int size, int *position, int i);
-void	write_label(int size);
-
-void	bytecode(int pos);
-
+/*
+**	header.c
+*/
+void			handle_header(void);
+void			write_header(void);
 
 /*
 **	instructions/
@@ -85,5 +67,30 @@ void			get_direct(void);
 static void		get_instruction_name(void);
 static void		get_instruction_values(void);
 void			handle_instructions(void);
+
+/*
+**	parse.c
+*/
+int 			parse_name(void);
+int				parse_comment(void);
+
+/*
+**	read_data.c
+*/
+char 			*readandstore(char *filename);
+int				gnl(void);
+
+/*
+**	tools.c
+*/
+void			get_op_offset(void);
+int				error(int errnb, char *msg, bool ifailure);
+
+/*
+**	validate.c
+*/
+int				valid_instr_types(char t, int arg);
+void			valid_instr_values(void);
+void			valid_instr_name(void);
 
 #endif

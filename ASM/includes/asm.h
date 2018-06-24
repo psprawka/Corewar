@@ -6,7 +6,7 @@
 /*   By: psprawka <psprawka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 10:56:16 by psprawka          #+#    #+#             */
-/*   Updated: 2018/06/24 09:58:45 by psprawka         ###   ########.fr       */
+/*   Updated: 2018/06/24 10:20:44 by psprawka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,73 +23,17 @@
 # include <errno.h>
 # include "op.h"
 # include "libft.h"
+# include "asm_structs.h"
 
 # define LABEL_MAX_SIZE 		300
 # define LINE_MAX_SIZE 			300
 # define INSTRUCTION_MAX_SIZE 	5
 # define TOKEN 					g_file.token
 # define DATA					g_file.data
+# define BUFF_SIZE				1000
 
-# define NORMAL		"\x1B[0m"
-# define BLACK		"\x1B[30m"
-# define RED		"\x1B[31m"
-# define GREEN		"\x1B[32m"
-# define YELLOW		"\x1B[33m"
-# define BLUE		"\x1B[34m"
-# define MAGNETA	"\x1B[35m"
-# define CYAN		"\x1B[36m"
-# define WHITE		"\x1B[37m"
-
-# define BUFF_SIZE	1000
-
-typedef struct		s_header
-{
-	unsigned int		magic;
-	char				prog_name[PROG_NAME_LENGTH + 1];
-	unsigned int		prog_size;
-	char				comment[COMMENT_LENGTH + 1];
-}					t_header;
-
-typedef struct	s_token
-{
-	char		*name;				/* instruction's name */
-	int			op_offset;			/* position in g_op_table */ 
-	char		*line;				/* one line from a file at the time */
-	int			bytecode;			/* if exists, bytecode number */
-	int			icode;				/* something I use for label's position, I wish I knew for what */
-	int			pos;				/* line[pos] <- current offset */
-}				t_token;
-
-typedef struct	s_file
-{
-	int			fd;
-	t_header 	*header;
-	char		*data;
-	char		*name;
-	int			cur_line;
-	int			offset;
-	int			op_offset;
-	char		*line;
-	char		**labels;
-	int			labels_nb;
-	t_token		*token;
-
-}				t_file;
-
-typedef struct	s_op
-{
-	char	*name;
-	int		arg_nb;
-	int		args[4];
-	int		op_code;
-	int		cycle;
-	char	*des;
-	int		coding_byte;
-	int		dir_size;
-}				t_op;
-
-t_op			g_op_tab[17];
-t_file			g_file;
+extern t_op						g_op_tab[17];
+extern t_file					g_file;
 
 
 /*

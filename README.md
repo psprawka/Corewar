@@ -53,8 +53,9 @@ and `./corewar -dump 10000 Gagnant.cor terence.cor` to see the state of the game
 </br>
 
 ![](imgs/cor2.png)
-</br></br>
-## 🗡️🛡️🗡️⭐ **May the Force be with you** ⭐🗡️🛡️🗡️
+</br>
+<div style="text-align:center">## 🗡️⭐🗡️ _**May the Force be with you**_ 🗡️⭐🗡️</div>
+
 
    ## Made by [Terence](https://github.com/tle-huu) (VM) and [Me](https://github.com/psprawka) (ASM)  🇵🇱🇫🇷
 </br>

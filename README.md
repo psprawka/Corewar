@@ -11,7 +11,7 @@ Corewar is a game about writting the AI warriors/champions/viruses/players and r
 
 ## Assembler
 <p float="left">
-  <img src="imgs/asm1.png" width="40.5%"/>
+  <img src="imgs/asm1.png" width="40%"/>
   <img src="imgs/arrow.png" width="20%"/>
   <img src="imgs/asm2.png" width="39%"/>
   

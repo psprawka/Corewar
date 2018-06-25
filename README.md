@@ -10,7 +10,7 @@ Corewar is a game about writting the AI warriors/champions/viruses/players and r
 * **The champion**: this part is about creating a super powerful warrior that will beat the 💩out of the other champs based on the set of instruction it was given, simultaneously reporting itself as alive. If you plan on winning a game, I'd recommend to make sure your champion has IQ greater than a 🍌. 
 </br>
 
-## Assembler
+## How to run assembler?
 <p float="left">
   <img src="imgs/asm1.png" width="40%"/>
   <img src="imgs/arrow.png" width="20%"/>
@@ -29,7 +29,7 @@ for example: `./asm champions/terence.s` and `./asm champions/Gagnant.s`
 More champs avaliable in `~/42SV-Corewar/ASM/champions/` directory.
 </br></br>
 
-## VM
+## How to start a game in VM? 
 from assembler directory:
 ```
 cd ../VM

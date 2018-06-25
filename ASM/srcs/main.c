@@ -6,7 +6,7 @@
 /*   By: psprawka <psprawka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/19 10:12:08 by psprawka          #+#    #+#             */
-/*   Updated: 2018/06/24 10:01:33 by psprawka         ###   ########.fr       */
+/*   Updated: 2018/06/25 06:33:34 by psprawka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		init_file(char *filename)
 {
 	g_file.data = readandstore(filename);
 	g_file.name = ft_strncpy(filename, ft_strlen(filename) - 2);
-	g_file.fd = open(ft_strjoin(g_file.name, ".corx", 0), O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	g_file.fd = open(ft_strjoin(g_file.name, ".cor", 0), O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	return (EXIT_SUCCESS);
 }
 

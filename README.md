@@ -24,8 +24,29 @@ cd 42SV-Corewar/ASM
 make 
 ./asm <your_champ.s>
 ```
-The exemplary champs avaliable in `~/42SV-Corewar/ASM/champions/` directory.
+for example: `./asm champions/terence.s` and `./asm champions/Gagnant.s`
+</br>
+More champs avaliable in `~/42SV-Corewar/ASM/champions/` directory.
 </br></br>
+
+## VM
+from assembler directory:
+```
+cd ../VM
+make
+
+./corewar [-dump nbr_cycles] [[-n number] champion1.cor] ...
+```
+for example:
+```
+cp ../ASM/champions/Gagnant.cor ../ASM/champions/terence.cor .
+./corewar -dump 1 Gagnant.cor terence.cor
+```
+will show you the inital state of the game 
+![](imgs/cor1.png)
+and `./corewar -dump 10000 Gagnant.cor terence.cor` to see the state of the game after `-dump` cycyles:
+![](imgs/cor2.png)
+
 
    ## Made by [Terence](https://github.com/tle-huu) (VM) and [Me](https://github.com/psprawka) (ASM)  🇵🇱🇫🇷
 </br>

@@ -44,13 +44,13 @@ cp ../ASM/champions/Gagnant.cor ../ASM/champions/terence.cor .
 ./corewar -dump 1 Gagnant.cor terence.cor
 ```
 will show you the inital state of the game 
-</br>
 ![](imgs/cor1.png)
 </br>
+
 and `./corewar -dump 10000 Gagnant.cor terence.cor` to see the state of the game after `-dump` cycyles:
 </br>
 ![](imgs/cor2.png)
-</br>
+</br></br>
 
    ## Made by [Terence](https://github.com/tle-huu) (VM) and [Me](https://github.com/psprawka) (ASM)  🇵🇱🇫🇷
 </br>
